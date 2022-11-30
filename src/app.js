@@ -33,10 +33,61 @@ class Triangle {
         return this.sideLength3;
     }
 
+    // Vérifier si il s'agit bien d'un triangle ==> refacto on devrait vérifier dans tous les cas qu'il s'agit d'un trianlge avant tout autre traitement ...
     isTriangle() {
-        if ((this.sideLength1 + this.sideLength2) > this.sideLength3)
+        if (((this.sideLength1 + this.sideLength2) > this.sideLength3) &&
+        ((this.sideLength2 + this.sideLength3) > this.sideLength1) && 
+        ((this.sideLength3 + this.sideLength1) > this.sideLength2))
         {
             return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    getSurfaceArea() 
+    {
+        var s = (this.sideLength1 + this.sideLength2 + this.sideLength3)/2
+        var surface = Math.sqrt(s*((s-this.sideLength1)*(s-this.sideLength2)*(s-this.sideLength3)))
+        // arrondir à deux chiffres après la virgule
+        return Math.round(surface * 100)/100
+    }
+
+    isRectangle()
+    {
+        const sin123 = this.sideLength2 / this.sideLength3; // 0.55
+        const sin231 = this.sideLength1 / this.sideLength2; // 0.8
+        const TotalTriangle = (Math.asin(sin123) * 180/Math.PI) + (Math.asin(sin231) * 180/Math.PI);
+        if((TotalTriangle-180)<90)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    isEquilateral() 
+    {
+        if ((this.sideLength1==this.sideLength2) && (this.sideLength1==this.sideLength3))
+            return true
+        else
+        {
+            return false
+        }
+    }
+
+    isIsocele(){
+        if((this.sideLength1 == this.sideLength2) && (this.sideLength1 != this.sideLength3) && (this.sideLength2 != this.sideLength3))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
@@ -46,7 +97,11 @@ module.exports = {
     Triangle:Triangle
 }
 
-let testTriangle = new Triangle(1,2,3);
-let testIsTriangle = testTriangle.isTriangle();
 
-console.log(testIsTriangle);
+
+
+let testTriangle = new Triangle(4, 4, 6);
+//let testIsTriangle = testTriangle.isTriangle();
+//let testSurfaceArea = testTriangle.getSurfaceArea();
+let testIsIsocele = testTriangle.isIsocele();
+console.log(testIsIsocele);
